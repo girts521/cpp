@@ -10,11 +10,17 @@ void toUpperCase(std::string &str)
 
 int main(int ac, char **av)
 {
-  if (ac > 1 && av[1])
+  if (ac < 2)
   {
-    std::string str = av[1];
-    toUpperCase(str);
-    std::cout << str << std::endl;
+    std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl;
+    return (0);
   }
+  for (int i = 1; av[i]; i++)
+  {
+    std::string str = av[i];
+    toUpperCase(str);
+    std::cout << str;
+  }
+  std::cout << std::endl;
   return (0);
 }
