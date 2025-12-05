@@ -12,7 +12,6 @@ class Contact
     std::string last_name;
     std::string nickname;
     std::string phone_number;
-
     // 1. Default (No args)
     Contact(void); 
 
