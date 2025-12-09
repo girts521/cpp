@@ -3,25 +3,19 @@
 
 #include <string>
 
-class Contact
-{
-  private:
-    std::string darkest_secret;
-  public:
-    std::string name;
-    std::string last_name;
-    std::string nickname;
-    std::string phone_number;
-    // 1. Default (No args)
-    Contact(void); 
+class Contact {
+private:
+  std::string darkest_secret;
 
-    // 2. Copy (Reference to another Contact)
-    Contact(const Contact &src);
+public:
+  std::string name;
+  std::string last_name;
+  std::string nickname;
+  std::string phone_number;
 
-    // 3. Assignment Operator (We will cover this next)
-    Contact &operator=(const Contact &src);
-
-    // 4. Destructor (Cleanup)
-    ~Contact(void);
+  Contact(void);
+  Contact(const Contact &src);
+  ~Contact(void);
+  Contact &operator=(const Contact &src);
 };
 #endif

@@ -1,10 +1,7 @@
-#include <iostream>
-#include "Contact.hpp"
+#include "PhoneBook.hpp"
 
-int main(void)
-{
-  Contact a;
-  Contact c;
-  Contact b(a);
-  c = b;
+int main(void) {
+  PhoneBook *phonebook = new PhoneBook();
+
+  phonebook->addContact();
 }
