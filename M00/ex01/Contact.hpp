@@ -5,7 +5,7 @@
 
 class Contact {
 private:
-  std::string darkest_secret;
+  std::string _darkest_secret;
 
 public:
   std::string name;
@@ -17,5 +17,8 @@ public:
   Contact(const Contact &src);
   ~Contact(void);
   Contact &operator=(const Contact &src);
+
+  void setDarkestSecret(void);
+  void printSecret(void);
 };
 #endif

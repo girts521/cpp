@@ -1,7 +1,10 @@
 #include "PhoneBook.hpp"
 #include "Contact.hpp"
+#include "utils.hpp"
 #include <iostream>
 #include <string>
+#include <iomanip>
+#include <cstdlib>
 
 PhoneBook::PhoneBook(void) {
   std::cout << "The default constructor has been called" << std::endl;
@@ -32,36 +35,76 @@ PhoneBook &PhoneBook::operator=(const PhoneBook &src) {
   return *this;
 }
 
-void PhoneBook::addContact(void) {
+void PhoneBook::addContact(void)
+{
   std::cout << "Adding a new contact" << std::endl;
+  Contact new_contact;
 
-  Contact *new_contact = new Contact();
+  while(new_contact.name.length() <= 0)
+  {
+    std::cout << "Please enter your name: ";
+    if (!std::getline(std::cin, new_contact.name))
+      exit(0);
+    std::cout << std::endl;
+  }
 
-  // i need to ask and get the input for everything in a contact
-  std::cout << "Please enter your name: ";
-  std::getline(std::cin, new_contact->name);
-  std::cout << std::endl;
+  while(new_contact.last_name.length() <= 0)
+  {
+    std::cout << "Please enter your last name: ";
+    if (!std::getline(std::cin, new_contact.last_name))
+      exit(0);
+    std::cout << std::endl;
+  }
 
-  std::cout << "Please enter your last name: ";
-  std::getline(std::cin, new_contact->last_name);
-  std::cout << std::endl;
+  while(new_contact.nickname.length() <= 0)
+  {
+    std::cout << "Please enter your nickname: ";
+    if (!std::getline(std::cin, new_contact.nickname))
+      exit(0);
+    std::cout << std::endl;
+  }
 
-  std::cout << "Please enter your nickname: ";
-  std::getline(std::cin, new_contact->nickname);
-  std::cout << std::endl;
+  while(new_contact.phone_number.length() <= 0)
+  {
+    std::cout << "Please enter your phone number: ";
+    if (!std::getline(std::cin, new_contact.phone_number))
+      exit(0);
+    std::cout << std::endl;
+  }
 
-  std::cout << "Please enter your phone number: ";
-  std::getline(std::cin, new_contact->phone_number);
-  std::cout << std::endl;
-  // before adding I have to check the index and if its less than 8 then add but
-  // if its 8 then rewrite the olderst (index 0) basically i can just restart
-  // the index and keep going.
-  if (_index == 7)
+  new_contact.setDarkestSecret();
+
+  if (_index == 8)
     _index = 0;
-  // then i add that new contact into the array of contacts
-  _contact_list[_index] = *new_contact;
+  _contact_list[_index] = new_contact;
+  _index++;
 }
 
-void searchContact(void) {
-  std::cout << "Searching for a contact" << std::endl;
+void PhoneBook::searchContact(void) {
+  int index;
+  std::string s_index;
+
+  if (this->_index == 0) 
+  {
+      std::cout << "Phonebook is empty!" << std::endl;
+      return;
+  }
+
+  Utils::printTable(_contact_list, 8);
+  std::cout << "Index: ";
+  if (!std::getline(std::cin, s_index))
+    return ;
+  index = std::atoi(s_index.c_str());
+  while (index <= 0 || index > 8 || _contact_list[index - 1].name.empty())
+  {
+    std::cout << "Enter a correct Index: ";
+    if (!std::getline(std::cin, s_index))
+      return ;
+    index = std::atoi(s_index.c_str());
+  }
+  std::cout << "First name: " << _contact_list[index - 1].name << std::endl;
+  std::cout << "Last name: " << _contact_list[index - 1].last_name << std::endl;
+  std::cout << "Nickname: " << _contact_list[index - 1].nickname << std::endl;
+  std::cout << "Phone number: " << _contact_list[index - 1].phone_number << std::endl;
+  _contact_list[index - 1].printSecret();
 }
