@@ -3,7 +3,8 @@
 #include <string>
 #include <cstdlib>
 
-int main(void) {
+int main(void)
+{
   PhoneBook phonebook;
   std::string command;
 

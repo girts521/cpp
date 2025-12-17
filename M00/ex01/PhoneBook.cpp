@@ -6,29 +6,32 @@
 #include <iomanip>
 #include <cstdlib>
 
-PhoneBook::PhoneBook(void) {
+PhoneBook::PhoneBook(void)
+{
   std::cout << "The default constructor has been called" << std::endl;
   this->_index = 0;
 }
 
-PhoneBook::PhoneBook(const PhoneBook &src) : _index(src._index) {
+PhoneBook::PhoneBook(const PhoneBook &src) : _index(src._index)
+{
   std::cout << "The copy constructor has been called" << std::endl;
 
   for (int i = 0; i < 8; i++)
     this->_contact_list[i] = src._contact_list[i];
 }
 
-PhoneBook::~PhoneBook(void) {
+PhoneBook::~PhoneBook(void)
+{
   std::cout << "The destructor has been called" << std::endl;
 }
 
-PhoneBook &PhoneBook::operator=(const PhoneBook &src) {
+PhoneBook &PhoneBook::operator=(const PhoneBook &src)
+{
   std::cout << "The assignment operator has been called" << std::endl;
-  if (this == &src)
-    return *this;
+
+  if (this == &src) return *this;
 
   this->_index = src._index;
-
   for (int i = 0; i < 8; i++)
     this->_contact_list[i] = src._contact_list[i];
 
@@ -37,50 +40,22 @@ PhoneBook &PhoneBook::operator=(const PhoneBook &src) {
 
 void PhoneBook::addContact(void)
 {
-  std::cout << "Adding a new contact" << std::endl;
   Contact new_contact;
 
-  while(new_contact.name.length() <= 0)
-  {
-    std::cout << "Please enter your name: ";
-    if (!std::getline(std::cin, new_contact.name))
-      exit(0);
-    std::cout << std::endl;
-  }
+  std::cout << "Adding a new contact" << std::endl;
 
-  while(new_contact.last_name.length() <= 0)
-  {
-    std::cout << "Please enter your last name: ";
-    if (!std::getline(std::cin, new_contact.last_name))
-      exit(0);
-    std::cout << std::endl;
-  }
-
-  while(new_contact.nickname.length() <= 0)
-  {
-    std::cout << "Please enter your nickname: ";
-    if (!std::getline(std::cin, new_contact.nickname))
-      exit(0);
-    std::cout << std::endl;
-  }
-
-  while(new_contact.phone_number.length() <= 0)
-  {
-    std::cout << "Please enter your phone number: ";
-    if (!std::getline(std::cin, new_contact.phone_number))
-      exit(0);
-    std::cout << std::endl;
-  }
-
+  Utils::setVar(new_contact.name, "Please enter your name: ");
+  Utils::setVar(new_contact.last_name, "Please enter your last name: ");
+  Utils::setVar(new_contact.nickname, "Please enter your nickname: ");
+  Utils::setVar(new_contact.phone_number, "Please enter your phone number: ");
   new_contact.setDarkestSecret();
 
-  if (_index == 8)
-    _index = 0;
-  _contact_list[_index] = new_contact;
-  _index++;
+  if (_index == 8) _index = 0;
+  _contact_list[_index++] = new_contact;
 }
 
-void PhoneBook::searchContact(void) {
+void PhoneBook::searchContact(void)
+{
   int index;
   std::string s_index;
 
@@ -92,16 +67,16 @@ void PhoneBook::searchContact(void) {
 
   Utils::printTable(_contact_list, 8);
   std::cout << "Index: ";
-  if (!std::getline(std::cin, s_index))
-    return ;
+  if (!std::getline(std::cin, s_index)) return;
   index = std::atoi(s_index.c_str());
+
   while (index <= 0 || index > 8 || _contact_list[index - 1].name.empty())
   {
     std::cout << "Enter a correct Index: ";
-    if (!std::getline(std::cin, s_index))
-      return ;
+    if (!std::getline(std::cin, s_index)) return;
     index = std::atoi(s_index.c_str());
   }
+
   std::cout << "First name: " << _contact_list[index - 1].name << std::endl;
   std::cout << "Last name: " << _contact_list[index - 1].last_name << std::endl;
   std::cout << "Nickname: " << _contact_list[index - 1].nickname << std::endl;
