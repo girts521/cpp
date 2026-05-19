@@ -1,7 +1,7 @@
 #include "Zombie.hpp"
 #include <iostream>
 
-Zombie::Zombie(void)
+Zombie::Zombie(void) : name("Unnamed")
 {
   std::cout << "Default constructor has been called" << std::endl;
 }
