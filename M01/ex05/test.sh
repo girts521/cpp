@@ -28,26 +28,6 @@ run_test() {
     fi
 }
 
-run_test_exact() {
-    local desc="$1"
-    local expected_file="$2"
-    local actual="$3"
-
-    expected_content=$(cat "$expected_file")
-    if [ "$actual" = "$expected_content" ]; then
-        echo -e "  ${GREEN}[PASS]${NC} $desc"
-        PASS=$((PASS + 1))
-    else
-        echo -e "  ${RED}[FAIL]${NC} $desc"
-        echo "    Expected output differs."
-        echo "    --- expected ---"
-        echo "$expected_content" | sed 's/^/    /'
-        echo "    --- got ---"
-        echo "$actual" | sed 's/^/    /'
-        FAIL=$((FAIL + 1))
-    fi
-}
-
 echo -e "${CYAN}========================================${NC}"
 echo -e "${CYAN}  $EXERCISE — Harl 2.0 Tests${NC}"
 echo -e "${CYAN}========================================${NC}"
@@ -69,34 +49,63 @@ fi
 echo ""
 echo -e "${CYAN}[TEST]${NC} Debug level"
 OUTPUT=$($BINARY 2>&1 | awk '/--- complain\("DEBUG"\) ---/,/^$/' | tail -n +2 | head -n -1)
-ACTUAL=$(echo "$OUTPUT" | head -2)
-run_test "Shows [ DEBUG ] header" "[ DEBUG ]" "$ACTUAL"
 run_test "Shows debug message" "extra bacon" "$OUTPUT"
 run_test "Shows burger detail" "7XL-double-cheese" "$OUTPUT"
+rfail=$(echo "$OUTPUT" | grep -qF "[ DEBUG ]" && echo 1 || echo 0)
+if [ "$rfail" -eq 0 ]; then
+    echo -e "  ${GREEN}[PASS]${NC} No [ DEBUG ] label in output"
+    PASS=$((PASS + 1))
+else
+    echo -e "  ${RED}[FAIL]${NC} No [ DEBUG ] label in output"
+    echo "    Output contains [ DEBUG ] but should only have the message"
+    FAIL=$((FAIL + 1))
+fi
 
 # Step 3: Test INFO level
 echo ""
 echo -e "${CYAN}[TEST]${NC} Info level"
 OUTPUT=$($BINARY 2>&1 | awk '/--- complain\("INFO"\) ---/,/^$/' | tail -n +2 | head -n -1)
-ACTUAL=$(echo "$OUTPUT" | head -2)
-run_test "Shows [ INFO ] header" "[ INFO ]" "$ACTUAL"
 run_test "Shows info message" "extra bacon costs more money" "$OUTPUT"
+rfail=$(echo "$OUTPUT" | grep -qF "[ INFO ]" && echo 1 || echo 0)
+if [ "$rfail" -eq 0 ]; then
+    echo -e "  ${GREEN}[PASS]${NC} No [ INFO ] label in output"
+    PASS=$((PASS + 1))
+else
+    echo -e "  ${RED}[FAIL]${NC} No [ INFO ] label in output"
+    echo "    Output contains [ INFO ] but should only have the message"
+    FAIL=$((FAIL + 1))
+fi
 
 # Step 4: Test WARNING level
 echo ""
 echo -e "${CYAN}[TEST]${NC} Warning level"
 OUTPUT=$($BINARY 2>&1 | awk '/--- complain\("WARNING"\) ---/,/^$/' | tail -n +2 | head -n -1)
-ACTUAL=$(echo "$OUTPUT" | head -2)
-run_test "Shows [ WARNING ] header" "[ WARNING ]" "$ACTUAL"
 run_test "Shows warning message" "extra bacon for free" "$OUTPUT"
+run_test "No comma after 'years'" "years whereas" "$OUTPUT"
+rfail=$(echo "$OUTPUT" | grep -qF "[ WARNING ]" && echo 1 || echo 0)
+if [ "$rfail" -eq 0 ]; then
+    echo -e "  ${GREEN}[PASS]${NC} No [ WARNING ] label in output"
+    PASS=$((PASS + 1))
+else
+    echo -e "  ${RED}[FAIL]${NC} No [ WARNING ] label in output"
+    echo "    Output contains [ WARNING ] but should only have the message"
+    FAIL=$((FAIL + 1))
+fi
 
 # Step 5: Test ERROR level
 echo ""
 echo -e "${CYAN}[TEST]${NC} Error level"
 OUTPUT=$($BINARY 2>&1 | awk '/--- complain\("ERROR"\) ---/,/^$/' | tail -n +2 | head -n -1)
-ACTUAL=$(echo "$OUTPUT" | head -2)
-run_test "Shows [ ERROR ] header" "[ ERROR ]" "$ACTUAL"
 run_test "Shows error message" "speak to the manager" "$OUTPUT"
+rfail=$(echo "$OUTPUT" | grep -qF "[ ERROR ]" && echo 1 || echo 0)
+if [ "$rfail" -eq 0 ]; then
+    echo -e "  ${GREEN}[PASS]${NC} No [ ERROR ] label in output"
+    PASS=$((PASS + 1))
+else
+    echo -e "  ${RED}[FAIL]${NC} No [ ERROR ] label in output"
+    echo "    Output contains [ ERROR ] but should only have the message"
+    FAIL=$((FAIL + 1))
+fi
 
 # Step 6: Test invalid level
 echo ""

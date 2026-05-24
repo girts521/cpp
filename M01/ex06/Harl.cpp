@@ -1,6 +1,19 @@
 #include "Harl.hpp"
 #include <iostream>
 
+Harl::Harl() {}
+
+Harl::Harl(const Harl &other) {
+    (void)other;
+}
+
+Harl::~Harl() {}
+
+Harl &Harl::operator=(const Harl &other) {
+    (void)other;
+    return *this;
+}
+
 void Harl::debug(void) {
     std::cout << "I love having extra bacon for my "
               << "7XL-double-cheese-triple-pickle-special-ketchup burger. "
@@ -15,7 +28,7 @@ void Harl::info(void) {
 
 void Harl::warning(void) {
     std::cout << "I think I deserve to have some extra bacon for free. "
-              << "I've been coming for years, whereas you started working "
+              << "I've been coming for years whereas you started working "
               << "here just last month." << std::endl;
 }
 
@@ -24,7 +37,7 @@ void Harl::error(void) {
               << std::endl;
 }
 
-void Harl::complain(std::string level) {
+void Harl::complain(const std::string &level) {
     void (Harl::*functions[4])(void) = {
         &Harl::debug,
         &Harl::info,

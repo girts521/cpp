@@ -11,7 +11,12 @@ private:
     void error(void);
 
 public:
-    void complain(std::string level);
+    Harl();
+    Harl(const Harl &other);
+    ~Harl();
+    Harl &operator=(const Harl &other);
+
+    void complain(const std::string &level);
 };
 
 #endif

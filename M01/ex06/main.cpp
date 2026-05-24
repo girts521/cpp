@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-static int getLevelIndex(std::string level) {
+static int getLevelIndex(const std::string &level) {
     std::string levels[4] = {
         "DEBUG",
         "INFO",
