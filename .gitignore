@@ -1,0 +1,17 @@
+# Compiled binaries
+megaphone
+phonebook
+zombie
+zombieHorde
+brain
+violence
+sed_is_for_losers
+harl
+harlFilter
+
+# Object files
+*.o
+
+# Test artifacts
+test.txt
+test.txt.replace
