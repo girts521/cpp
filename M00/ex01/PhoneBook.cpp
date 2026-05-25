@@ -39,14 +39,15 @@ void PhoneBook::addContact(void) {
 
   std::cout << "Adding a new contact" << std::endl;
 
-  Utils::setVar(new_contact.name, "Please enter your name: ");
-  Utils::setVar(new_contact.last_name, "Please enter your last name: ");
-  Utils::setVar(new_contact.nickname, "Please enter your nickname: ");
-  Utils::setVar(new_contact.phone_number, "Please enter your phone number: ");
+  new_contact.setName();
+  new_contact.setLastName();
+  new_contact.setNickname();
+  new_contact.setPhoneNumber();
   new_contact.setDarkestSecret();
 
   if (_index == 8)
     _index = 0;
+
   _contact_list[_index++] = new_contact;
 }
 
@@ -60,22 +61,33 @@ void PhoneBook::searchContact(void) {
   }
 
   Utils::printTable(_contact_list, 8);
-  std::cout << "Index: ";
-  if (!std::getline(std::cin, s_index))
-    return;
-  index = std::atoi(s_index.c_str());
 
-  while (index <= 0 || index > 8 || _contact_list[index - 1].name.empty()) {
-    std::cout << "Enter a correct Index: ";
+  while (true) {
+    std::cout << "Index: ";
     if (!std::getline(std::cin, s_index))
-      return;
-    index = std::atoi(s_index.c_str());
+      exit(0);
+
+    if (s_index.length() == 1 && s_index[0] >= '1' && s_index[0] <= '8') {
+      index = s_index[0] - '0';
+
+      if (!_contact_list[index - 1].getName().empty()) {
+        break;
+      }
+    }
+
+    std::cout << "Error: Invalid index. Enter a valid number (1-8) for an "
+                 "existing contact."
+              << std::endl;
   }
 
-  std::cout << "First name: " << _contact_list[index - 1].name << std::endl;
-  std::cout << "Last name: " << _contact_list[index - 1].last_name << std::endl;
-  std::cout << "Nickname: " << _contact_list[index - 1].nickname << std::endl;
-  std::cout << "Phone number: " << _contact_list[index - 1].phone_number
+  std::cout << "First name: " << _contact_list[index - 1].getName()
             << std::endl;
-  _contact_list[index - 1].printSecret();
+  std::cout << "Last name: " << _contact_list[index - 1].getLastName()
+            << std::endl;
+  std::cout << "Nickname: " << _contact_list[index - 1].getNickname()
+            << std::endl;
+  std::cout << "Phone number: " << _contact_list[index - 1].getPhoneNumber()
+            << std::endl;
+  std::cout << "Darkest secret: " << _contact_list[index - 1].getDarkestSecret()
+            << std::endl;
 }

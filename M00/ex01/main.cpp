@@ -1,27 +1,31 @@
 #include "PhoneBook.hpp"
+#include <cstdlib>
 #include <iostream>
 #include <string>
-#include <cstdlib>
 
-int main(void)
-{
+int main(void) {
   PhoneBook phonebook;
   std::string command;
 
-  std::cout << "Phonebook: ";
-  if (!std::getline(std::cin, command))
-    exit(0);
+  while (true) {
+    std::cout << "Phonebook (ADD, SEARCH, EXIT): ";
 
-  while (1)
-  {
-    if (command == "ADD")
-      phonebook.addContact();
-    else if (command == "SEARCH")
-      phonebook.searchContact();
-    else if (command == "EXIT")
-      return (0);
-    std::cout << "Phonebook: ";
-    if (!std::getline(std::cin, command))
+    if (!std::getline(std::cin, command)) {
+      std::cout << "\nEOF detected. Exiting securely." << std::endl;
       exit(0);
+    }
+
+    if (command == "ADD") {
+      phonebook.addContact();
+    } else if (command == "SEARCH") {
+      phonebook.searchContact();
+    } else if (command == "EXIT") {
+      return (0);
+    } else if (!command.empty()) {
+      std::cout
+          << "Error: Invalid command. Only ADD, SEARCH, or EXIT are accepted."
+          << std::endl;
+    }
   }
+  return (0);
 }
