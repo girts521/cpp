@@ -34,7 +34,7 @@ check_msg() {
 echo "Checking output messages..."
 check_msg "ClapTrap Fraggy constructed!"
 check_msg "FragTrap Fraggy constructed!"
-check_msg "FragTrap Fraggy attacks Enemy, causing 30 points of damage!"
+check_msg "ClapTrap Fraggy attacks Enemy, causing 30 points of damage!"
 check_msg "FragTrap Fraggy requests a high five!"
 check_msg "ClapTrap Fraggy takes 40 points of damage!"
 check_msg "ClapTrap Fraggy repairs itself, gaining 25 hit points!"

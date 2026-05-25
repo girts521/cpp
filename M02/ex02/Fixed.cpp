@@ -3,30 +3,25 @@
 
 Fixed::Fixed(void) : _fixedPointValue(0)
 {
-    std::cout << "Default constructor called" << std::endl;
 }
 
 Fixed::Fixed(Fixed const &other)
 {
-    std::cout << "Copy constructor called" << std::endl;
     this->_fixedPointValue = other.getRawBits();
 }
 
 Fixed::Fixed(int const n)
 {
-    std::cout << "Int constructor called" << std::endl;
     this->_fixedPointValue = n << _fractionalBits;
 }
 
 Fixed::Fixed(float const f)
 {
-    std::cout << "Float constructor called" << std::endl;
     this->_fixedPointValue = roundf(f * (1 << _fractionalBits));
 }
 
 Fixed &Fixed::operator=(Fixed const &other)
 {
-    std::cout << "Copy assignment operator called" << std::endl;
     if (this != &other)
         this->_fixedPointValue = other.getRawBits();
     return *this;
@@ -34,12 +29,10 @@ Fixed &Fixed::operator=(Fixed const &other)
 
 Fixed::~Fixed(void)
 {
-    std::cout << "Destructor called" << std::endl;
 }
 
 int Fixed::getRawBits(void) const
 {
-    std::cout << "getRawBits member function called" << std::endl;
     return this->_fixedPointValue;
 }
 
@@ -113,27 +106,27 @@ Fixed Fixed::operator/(Fixed const &other) const
 /* Increment/Decrement */
 Fixed &Fixed::operator++(void)
 {
-    this->_fixedPointValue += 1;  // smallest epsilon: 1/256 = 0.00390625
+    this->_fixedPointValue += 1;
     return *this;
 }
 
 Fixed Fixed::operator++(int)
 {
     Fixed tmp(*this);
-    this->_fixedPointValue += 1;  // smallest epsilon: 1/256 = 0.00390625
+    this->_fixedPointValue += 1;
     return tmp;
 }
 
 Fixed &Fixed::operator--(void)
 {
-    this->_fixedPointValue -= 1;  // smallest epsilon: 1/256 = 0.00390625
+    this->_fixedPointValue -= 1;
     return *this;
 }
 
 Fixed Fixed::operator--(int)
 {
     Fixed tmp(*this);
-    this->_fixedPointValue -= 1;  // smallest epsilon: 1/256 = 0.00390625
+    this->_fixedPointValue -= 1;
     return tmp;
 }
 

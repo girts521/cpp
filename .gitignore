@@ -9,6 +9,16 @@ sed_is_for_losers
 harl
 harlFilter
 
+# M02 binaries
+fixed
+bsp
+
+# M03 binaries
+claptrap
+scavtrap
+fragtrap
+diamondtrap
+
 # Object files
 *.o
 
