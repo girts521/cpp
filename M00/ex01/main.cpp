@@ -8,7 +8,7 @@ int main(void) {
   std::string command;
 
   while (true) {
-    std::cout << "Phonebook (ADD, SEARCH, EXIT): ";
+    std::cout << "Phonebook: ";
 
     if (!std::getline(std::cin, command)) {
       std::cout << "\nEOF detected. Exiting securely." << std::endl;
